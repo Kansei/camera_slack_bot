@@ -10,7 +10,7 @@ message = "今日の単語：「#{word[:title]}」\n#{word[:text]}\n#{word[:uri]
 
 response = HTTP.post("https://slack.com/api/chat.postMessage", params: {
     token: ENV["CAMERA_DAILY_BOT"],
-    channel: "#general",
+    channel: "#てすと",
     text: message,
     as_user: true,
   })
