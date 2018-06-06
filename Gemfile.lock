@@ -34,8 +34,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  eventmachine
-  faye-websocket
+  eventmachine (~> 1.2.0)
+  faye-websocket (~> 0.10.0)
   http (~> 3.3.0)
   json (~> 2.0.0)
   nokogiri (~> 1.8.0)
