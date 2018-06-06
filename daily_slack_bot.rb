@@ -41,8 +41,6 @@ def response_text(word, user)
     text = "準備中"
   when honsyu_id
     text = "お前はメガネでしかない"
-  when "U8HPQRGPJ"
-    text = "お前はクソ野郎だ"
   else
     search(word)
   end
