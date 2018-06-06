@@ -4,10 +4,6 @@ require 'open-uri'
 class CameraDictionary
   @prefix = "https://ptl.imagegateway.net"
   @index = "/contents/original/glossary/index.html"
-
-  @exp = {title: nil, text: nil, uri: nil,status: "nothing"}
-  #ステータス:"match","include","nothing","daily"
-
   @index_html = open(@prefix + @index) do |f|
     @charset = f.charset
     f.read
@@ -18,6 +14,8 @@ class CameraDictionary
   end
 
   def self.search_word(str)
+
+
     doc = Nokogiri::HTML.parse(@index_html, nil, @charset)
 
     word_array = []
@@ -37,7 +35,6 @@ class CameraDictionary
           break
         end
       end
-      return @exp if status == "nothing"
     end
 
     scrape_word(word_num: num,status: status)
@@ -45,6 +42,11 @@ class CameraDictionary
 
   private
   def self.scrape_word(word_num: nil,status:)
+    exp = {title: nil, text: nil, uri: nil,status: "nothing"}
+    #ステータス:"match","include","nothing","daily"
+
+    return exp if status == "nothing"
+
     index_doc = Nokogiri::HTML.parse(@index_html, nil, @charset)
     index_node = index_doc.xpath('//div[@class="list"]/ul/li/a')
 
@@ -54,10 +56,10 @@ class CameraDictionary
     word_html = open(word_uri)
     word_doc = Nokogiri::HTML.parse(word_html,nil,@charset)
 
-    @exp[:title] = word_doc.xpath('//*[@id="term_Inner"]/h2').inner_text
-    @exp[:text]= word_doc.xpath('/html/body/div[4]/div[2]/div[2]/p').inner_text.split("。")[0]
-    @exp[:uri] = word_uri
-    @exp[:status] = status if (@exp[:title] != nil && @exp[:text] != nil)
-    @exp
+    exp[:title] = word_doc.xpath('//*[@id="term_Inner"]/h2').inner_text
+    exp[:text]= word_doc.xpath('/html/body/div[4]/div[2]/div[2]/p').inner_text.split("。")[0]
+    exp[:uri] = word_uri
+    exp[:status] = status if (exp[:title] != nil && exp[:text] != nil)
+    exp
   end
 end
